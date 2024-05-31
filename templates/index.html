@@ -42,7 +42,7 @@
                     <div class="col"></div>
                 </div>
                 {% for result in results %}
-                    <p>
+                    <!-- <p>
                         {{ from_ + loop.index }}. <b><a href="{{ url_for('get_document', id=result._id) }}">{{ result._source.title }}</a></b>
                         <br>
                         {{ result._source.summary }}
@@ -53,6 +53,22 @@
                             Category: {{ result._source.category }}.
                             Last updated: {{ result._source.updated_at | default(result._source.created_on) }}.
                             {% if result._score %}<i>(Score: {{ result._score }})</i>{% endif %}
+                        </small>
+                    </p> -->
+                     <p>
+                        {{ from_ + loop.index }}. <b><a href="{{ url_for('get_document', id=result._id) }}">{{ result._source.customer_full_name }}</a></b>
+                        <br>
+                        {{ result._source.customer_first_name }}
+                        <br>
+                        {{result._source.customer_last_name }}
+                        <br>
+                        <small>
+                            {% for product in result._source.products %}
+                                {{loop.index}}. {{product.product_name}}<br>
+                                {{product.base_price}}<br>
+                                {{product.discount_percentage}}<br>
+                                {{product.manufacturer}}<br>
+                            {% endfor %}
                         </small>
                     </p>
                 {% endfor %}

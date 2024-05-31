@@ -9,12 +9,12 @@ from flask import app
 
 load_dotenv()
 
-ELASTIC_PASSWORD= "0_TtDyV0V7lW3U*yM+Mq"
+ELASTIC_PASSWORD= "vSRhF*S2f_*LcK-YJwtv"
 class Search:
     def __init__(self):
         self.es = Elasticsearch(
             'https://localhost:9200',
-            ssl_assert_fingerprint=("4963d0ec08ff37859e0211405a5b5642330307c794d4dc27074274907113328a"),
+            ssl_assert_fingerprint=("3ab0c457374ac9e9721146d5638ef117e45a932a1e8cb8b83ad7cd50ff5ca65d"),
             basic_auth=("elastic",ELASTIC_PASSWORD),
             http_compress=True) # <-- connection options need to be added here
         client_info = self.es.info()
@@ -25,7 +25,8 @@ class Search:
         self.es.indices.create(index="my_documents")
 
     def search(self, **query_args):
-        return self.es.search(index='my_documents', **query_args)
+        #return self.es.search(index='my_documents', **query_args)
+        return self.es.search(index='kibana_sample_data_ecommerce', **query_args)
     
     def print_message():
         print("First message is printed")
@@ -38,3 +39,6 @@ class Search:
         }
         response = self.es.index(index='my_documents', body=document)
         print(response['_id'])
+
+    def retrieve_document(self, id):
+        return self.es.get(index='my_documents', id=id)
